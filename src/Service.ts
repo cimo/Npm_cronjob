@@ -85,13 +85,16 @@ const runJob = (): void => {
 
                     return;
                 }
+
                 if (stderr) {
                     helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `stderr: ${stderr}`);
 
                     return;
                 }
 
-                helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `output: ${stdout}\n`);
+                if (stdout) {
+                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `output: ${stdout}\n`);
+                }
             });
         }
     }
