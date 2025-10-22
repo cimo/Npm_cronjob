@@ -19,7 +19,9 @@ Writed with native Typescript code and no dependencies are used.
 
 1. Link for npm package -> https://www.npmjs.com/package/@cimo/cronjob
 
-## Job file (is a json file with cron instructions) create 1 for execute 1 job jobs.
+## Job file (is a json file with cron instructions) 1 file is for 1 instruction.
+
+-   test.json
 
 ```
 {
