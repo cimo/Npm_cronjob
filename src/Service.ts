@@ -8,6 +8,8 @@ import * as model from "./Model";
 
 const jobList: model.Idata[] = [];
 
+let interval: NodeJS.Timeout | null = null;
+
 const parseField = (field: string, max: number): number[] => {
     const resultList: number[] = [];
     const fieldSplit = field.split(",");
@@ -100,24 +102,47 @@ const runJob = (): void => {
     }
 };
 
-const readJob = async (path: string): Promise<void> => {
-    const dataList = await Fs.promises.readdir(path);
-
-    for (const data of dataList) {
-        const pathData = `${path}${data}`;
-        const statData = await Fs.promises.stat(pathData);
-
-        if (statData.isFile() && Path.extname(data) === ".json") {
-            const file = await Fs.promises.readFile(pathData, "utf-8");
-            const jsonData: model.Idata = JSON.parse(file);
-
-            jobList.push(jsonData);
+const readJob = (path: string, resolve: () => void): void => {
+    Fs.readdir(path, (error, dataList) => {
+        if (error) {
+            return resolve();
         }
-    }
+
+        let count = 0;
+
+        const next = () => {
+            if (count >= dataList.length) {
+                return resolve();
+            }
+
+            const data = dataList[count++];
+            const pathData = `${path}${data}`;
+
+            Fs.stat(pathData, (errorStat, statData) => {
+                if (!errorStat && statData.isFile() && Path.extname(data) === ".json") {
+                    Fs.readFile(pathData, "utf-8", (errorRead, file) => {
+                        if (!errorRead) {
+                            const jsonData: model.Idata = JSON.parse(file);
+
+                            jobList.push(jsonData);
+                        }
+
+                        next();
+                    });
+                } else {
+                    next();
+                }
+            });
+        };
+
+        next();
+    });
 };
 
 export const execute = (path: string) => {
-    readJob(path).then(() => {
-        setInterval(runJob, 60000);
+    readJob(path, () => {
+        if (!interval) {
+            interval = setInterval(runJob, 60000);
+        }
     });
 };
