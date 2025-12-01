@@ -102,17 +102,17 @@ const runJob = (): void => {
     }
 };
 
-const readJob = (path: string, resolve: () => void): void => {
+const readJob = (path: string, callback: () => void): void => {
     Fs.readdir(path, (error, dataList) => {
         if (error) {
-            return resolve();
+            return callback();
         }
 
         let count = 0;
 
         const next = () => {
             if (count >= dataList.length) {
-                return resolve();
+                return callback();
             }
 
             const data = dataList[count++];
