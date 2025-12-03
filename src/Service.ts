@@ -139,7 +139,7 @@ const readJob = (path: string, callback: () => void): void => {
     });
 };
 
-export const execute = (path: string) => {
+export const execute = (path: string): void => {
     readJob(path, () => {
         if (!interval) {
             interval = setInterval(runJob, 60000);
