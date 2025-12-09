@@ -3,8 +3,8 @@ import Path from "path";
 import { exec } from "child_process";
 
 // Source
-import * as helperSrc from "./HelperSrc";
-import * as model from "./Model";
+import * as helperSrc from "./HelperSrc.js";
+import * as model from "./Model.js";
 
 const jobList: model.Idata[] = [];
 
