@@ -44,5 +44,4 @@ import { Cc } from "@cimo/cronjob/dist/src/Main";
 Cc.execute("./file/cronjob/");
 
 ...
-
 ```
