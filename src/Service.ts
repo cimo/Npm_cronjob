@@ -83,19 +83,19 @@ const runJob = (): void => {
         if (matchTime(job.schedule, currentDate) && job.command && job.command !== "") {
             exec(job.command, (error, stdout, stderr) => {
                 if (error) {
-                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `error: ${error.message}`);
+                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec() - error", error.message);
 
                     return;
                 }
 
                 if (stderr) {
-                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `stderr: ${stderr}`);
+                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec() - stderr", stderr);
 
                     return;
                 }
 
                 if (stdout) {
-                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec(command)", `output: ${stdout}\n`);
+                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec() - stdout", `${stdout}\n`);
                 }
             });
         }
