@@ -95,7 +95,7 @@ const runJob = (): void => {
                 }
 
                 if (stdout) {
-                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec() - stdout", `${stdout}\n`);
+                    helperSrc.writeLog("@cimo/cronjob - Service.ts - runJob() - exec() - stdout", `\n${stdout}`);
                 }
             });
         }
