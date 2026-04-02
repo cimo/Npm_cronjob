@@ -30,7 +30,7 @@ Cc.execute("./file/cronjob/");
 ```
 
 ## Example
-1. Create a folder "/file/cronjob/" in your root and add the file:
+1. Create a folder "/file/cronjob/" in your root folder and add the file:
     - xxx.json
     ```
     {
