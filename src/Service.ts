@@ -8,46 +8,49 @@ import * as model from "./Model.js";
 
 const jobList: model.Idata[] = [];
 
-let interval: NodeJS.Timeout | null = null;
+let interval: NodeJS.Timeout | undefined = undefined;
 
 const parseField = (field: string, max: number): number[] => {
     const resultList: number[] = [];
+
     const fieldSplit = field.split(",");
 
-    for (const field of fieldSplit) {
-        if (field === "*") {
-            for (let a = 0; a <= max; a++) {
-                resultList.push(a);
+    for (let a = 0; a < fieldSplit.length; a++) {
+        const currentField = fieldSplit[a];
+
+        if (currentField === "*") {
+            for (let b = 0; b <= max; b++) {
+                resultList.push(b);
             }
-        } else if (field.includes("/")) {
-            const fieldSubSplit = field.split("/");
+        } else if (currentField.includes("/")) {
+            const fieldSubSplit = currentField.split("/");
             const base = fieldSubSplit[0];
             const step = parseInt(fieldSubSplit[1]);
             const start = base === "*" ? 0 : parseInt(base);
 
-            for (let a = start; a <= max; a += step) {
-                resultList.push(a);
+            for (let b = start; b <= max; b += step) {
+                resultList.push(b);
             }
-        } else if (field.includes("-")) {
-            const fieldSubSplit = field.split("-");
+        } else if (currentField.includes("-")) {
+            const fieldSubSplit = currentField.split("-");
             let start = 0;
             let end = 0;
 
-            for (let a = 0; a < fieldSubSplit.length; a++) {
-                const num = parseInt(fieldSubSplit[a]);
+            for (let b = 0; b < fieldSubSplit.length; b++) {
+                const num = parseInt(fieldSubSplit[b]);
 
-                if (a === 0) {
+                if (b === 0) {
                     start = num;
                 } else {
                     end = num;
                 }
             }
 
-            for (let a = start; a <= end; a++) {
-                resultList.push(a);
+            for (let b = start; b <= end; b++) {
+                resultList.push(b);
             }
         } else {
-            const value = parseInt(field);
+            const value = parseInt(currentField);
 
             if (!isNaN(value)) {
                 resultList.push(value);
@@ -79,7 +82,9 @@ const matchTime = (schedule: string, currentDate: Date): boolean => {
 const runJob = (): void => {
     const currentDate = new Date();
 
-    for (const job of jobList) {
+    for (let a = 0; a < jobList.length; a++) {
+        const job = jobList[a];
+
         if (matchTime(job.schedule, currentDate) && job.command && job.command !== "") {
             exec(job.command, (error, stdout, stderr) => {
                 if (error) {
@@ -121,7 +126,7 @@ const readJob = (path: string, callback: () => void): void => {
             Fs.stat(pathData, (errorStat, statData) => {
                 if (!errorStat && statData.isFile() && Path.extname(data) === ".json") {
                     Fs.readFile(pathData, "utf-8", (errorRead, file) => {
-                        if (!errorRead) {
+                        if (!errorRead && helperSrc.isJson(file)) {
                             const jsonData: model.Idata = JSON.parse(file);
 
                             jobList.push(jsonData);
