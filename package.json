@@ -1,6 +1,6 @@
 {
     "name": "@cimo/cronjob",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "description": "Cronjob schedule. Light, fast and secure.",
     "author": "cimo",
     "license": "MIT",
