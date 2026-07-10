@@ -126,7 +126,7 @@ const readJob = (path: string, callback: () => void): void => {
             Fs.stat(pathData, (errorStat, statData) => {
                 if (!errorStat && statData.isFile() && Path.extname(data) === ".json") {
                     Fs.readFile(pathData, "utf-8", (errorRead, file) => {
-                        if (!errorRead && helperSrc.isJson(file)) {
+                        if (!errorRead && helperSrc.jsonCheck(file)) {
                             const fileObject = JSON.parse(file) as model.Idata;
 
                             jobList.push(fileObject);
