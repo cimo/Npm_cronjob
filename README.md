@@ -15,6 +15,14 @@ Writed with native Typescript code and no dependencies are used.
 ## Installation
 1. Link for npm package -> https://www.npmjs.com/package/@cimo/cronjob
 
+## Reset
+1. Delete this from the root:
+    - build
+    - dist
+    - node_modules
+
+2. Follow the "Installation" instructions.
+
 ## Server
 - Server.ts
 ```
